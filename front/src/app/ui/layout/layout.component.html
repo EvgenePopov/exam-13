@@ -1,0 +1,52 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === true">
+    <mat-toolbar>Menu</mat-toolbar>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <div>
+        <button
+                type="button"
+                aria-label="Toggle sidenav"
+                mat-icon-button
+                (click)="drawer.toggle()"
+                *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <a routerLink="/" class="logo-link">Front</a>
+      </div>
+      <nav *appUserType="'user' else anonMenu">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="user-menu">
+          <button mat-menu-item [disabled]="true">{{ (user | async)?.name }}</button>
+          <button mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+      </nav>
+      <ng-template #anonMenu>
+        <nav *ngIf="changeOnMenuReg else btnRegMenu">
+          <button mat-icon-button [matMenuTriggerFor]="regMenu">
+            <span class="material-icons icon-reg-menu" style="font-size: 24px">how_to_reg</span>
+          </button>
+          <mat-menu #regMenu="matMenu" class="user-menu">
+            <button mat-menu-item routerLink="login">Sing In</button>
+            <button mat-menu-item routerLink="register">Register</button>
+          </mat-menu>
+        </nav>
+        <ng-template #btnRegMenu>
+          <nav >
+            <a mat-raised-button class="reg-link" routerLink="register">Register</a>
+            <a mat-raised-button class="reg-link" routerLink="login">Sing In</a>
+          </nav>
+        </ng-template>
+      </ng-template>
+    </mat-toolbar>
+    <div class="content" (window:resize) = onResize($event)>
+      <ng-content></ng-content>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
