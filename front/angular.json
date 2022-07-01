@@ -68,8 +68,16 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
-            }
-          },
+            },
+          "bdd": {
+            "fileReplacements": [
+              {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.bdd.ts"
+              }
+            ]
+          }
+        },
           "defaultConfiguration": "production"
         },
         "serve": {
@@ -80,8 +88,11 @@
             },
             "development": {
               "browserTarget": "front:build:development"
-            }
-          },
+            },
+          "bdd": {
+            "browserTarget": "front:build:bdd"
+          }
+        },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
