@@ -26,3 +26,8 @@ export interface FetchImagesError {
 export interface AddImagesError {
     error: string
 }
+
+export interface RemoveImage {
+    id: string,
+    placeId: string
+}

@@ -39,6 +39,10 @@ const PlaceSchema = new mongoose.Schema({
         default: 0,
         max: 5.0
     },
+    amountPhoto: {
+        type: Number,
+        default: 0,
+    }
 
 });
 

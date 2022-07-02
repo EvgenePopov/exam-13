@@ -28,7 +28,8 @@ export class PlacesService {
                         placeData.rating,
                         placeData.ratFood,
                         placeData.ratService,
-                        placeData.ratInterior
+                        placeData.ratInterior,
+                        placeData.amountPhoto
                     )
                 });
             })
@@ -46,6 +47,10 @@ export class PlacesService {
         }
 
         return this.http.post(env.apiUrl + '/places', formData);
+    }
+
+    removePlace(id: string) {
+        return this.http.delete(env.apiUrl + '/places/' + id);
     }
 
 }

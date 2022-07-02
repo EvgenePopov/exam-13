@@ -11,7 +11,9 @@ import {
     addReviewSuccess,
     fetchReviewsFailure,
     fetchReviewsRequest,
-    fetchReviewsSuccess
+    fetchReviewsSuccess,
+    removeReviewRequest,
+    removeReviewSuccess
 } from "./reviews.actions";
 import {ReviewsService} from "../services/reviews.service";
 import {fetchInformationPlaceRequest} from "./place.actions";
@@ -45,5 +47,16 @@ export class ReviewsEffects {
             }),
             this.helpers.catchServerError(addReviewFailure)
         ))));
+
+    removeReview = createEffect(() => this.actions.pipe(
+        ofType(removeReviewRequest),
+        mergeMap(({placeId}) => this.reviewsService.removeReview(placeId).pipe(
+            map(() => removeReviewSuccess()),
+            tap (() => {
+                this.store.dispatch(fetchReviewsRequest({placeId: placeId.placeId}));
+                this.helpers.openSnackbar('Delete done!');
+            }),
+        ))
+    ));
 
 }

@@ -23,6 +23,9 @@
                             <div class="gallery-img-block">
                                 <img class="gallery-img" [src]="apiUrl + '/uploads/' + image.image" [alt]="placeData.title">
                             </div>
+                            <div class="remove" *ngIf="(user | async)?.role === 'admin'">
+                                <button mat-raised-button color="warn" (click)="RemoveImage(image._id)">Delete</button>
+                            </div>
                         </div>
                     </div>
                 </ng-template>
@@ -76,6 +79,9 @@
                 <div class="review">
                     <h4>Date: </h4>
                     <p>{{review.date}}</p>
+                    <div class="remove" *ngIf="(user | async)?.role === 'admin'">
+                        <button mat-raised-button color="warn" (click)="RemoveReview(review._id)">Delete</button>
+                    </div>
                 </div>
                 <div class="review">
                     <h3><i>{{review.user.name}}</i></h3>
@@ -114,106 +120,120 @@
                 </div>
             </div>
         </div>
-        <div class="form-block-photo">
-            <h3 class="form-title">Add review</h3>
-            <form #formReview="ngForm" (ngSubmit)="onSubmitReview()" class="form">
-                <div class="form-rating">
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Food</mat-label>
-                            <input
-                                    type="number" name="ratFood" max="5" min="0"
-                                    required matInput ngModel #ratFood="ngModel"
-                            />
-                        </mat-form-field>
-                        <mat-error
-                                *ngIf="ratFood.touched && ratFood.hasError('required')"
-                        >Food rating is required!
-                        </mat-error>
+        <div *appUserType="'user' else formRev">
+            <div class="form-block-photo">
+                <h3 class="form-title">Add review</h3>
+                <form #formReview="ngForm" (ngSubmit)="onSubmitReview()" class="form">
+                    <div class="form-rating">
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Food</mat-label>
+                                <input
+                                        type="number" name="ratFood" max="5" min="0"
+                                        required matInput ngModel #ratFood="ngModel"
+                                />
+                            </mat-form-field>
+                            <mat-error
+                                    *ngIf="ratFood.touched && ratFood.hasError('required')"
+                            >Food rating is required!
+                            </mat-error>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Service</mat-label>
+                                <input
+                                        type="number" name="ratService" max="5" min="0"
+                                        required matInput ngModel #ratService="ngModel"
+                                />
+                            </mat-form-field>
+                            <mat-error
+                                    *ngIf="ratService.touched && ratService.hasError('required')"
+                            >Service rating is required!
+                            </mat-error>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Interior</mat-label>
+                                <input
+                                        type="number" name="ratInterior" max="5" min="0"
+                                        required matInput ngModel #ratInterior="ngModel"
+                                />
+                            </mat-form-field>
+                            <mat-error
+                                    *ngIf="ratInterior.touched && ratInterior.hasError('required')"
+                            >Interior rating is required!
+                            </mat-error>
+                        </div>
                     </div>
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Service</mat-label>
-                            <input
-                                    type="number" name="ratService" max="5" min="0"
-                                    required matInput ngModel #ratService="ngModel"
-                            />
-                        </mat-form-field>
-                        <mat-error
-                                *ngIf="ratService.touched && ratService.hasError('required')"
-                        >Service rating is required!
-                        </mat-error>
-                    </div>
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Interior</mat-label>
-                            <input
-                                    type="number" name="ratInterior" max="5" min="0"
-                                    required matInput ngModel #ratInterior="ngModel"
-                            />
-                        </mat-form-field>
-                        <mat-error
-                                *ngIf="ratInterior.touched && ratInterior.hasError('required')"
-                        >Interior rating is required!
-                        </mat-error>
-                    </div>
-                </div>
-                <mat-form-field appearance="outline">
-                    <mat-label>Comment</mat-label>
-                    <textarea
-                            type="text" name="comment"
-                            required matInput ngModel #comment="ngModel"
-                    >
+                    <mat-form-field appearance="outline">
+                        <mat-label>Comment</mat-label>
+                        <textarea
+                                type="text" name="comment"
+                                required matInput ngModel #comment="ngModel"
+                        >
 
                 </textarea>
+                        <mat-error
+                                *ngIf="comment.touched && comment.hasError('required')"
+                        >Comment is required!
+                        </mat-error>
+                    </mat-form-field>
+                    <div class="btn-wrapper">
+                        <button
+                                type="submit"
+                                mat-raised-button
+                                color="primary"
+                                class="btn-send"
+                                [disabled]="formReview.invalid || (addReviewLoading | async)"
+                        >
+                            <mat-progress-spinner *ngIf="addReviewLoading | async else btnText" mode="indeterminate" [diameter]="25"></mat-progress-spinner>
+                            <ng-template #btnText>
+                                Send
+                            </ng-template>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <ng-template #formRev>
+            <div class="form-block-photo">
+                <h3 class="form-title">Register to leave a review</h3>
+            </div>
+        </ng-template>
+        <div *appUserType="'user' else formPhoto">
+            <div class="form-block-photo">
+                <h3 class="form-title">Add new photo</h3>
+                <div class="error" *ngIf="addImagesError | async"> {{(addImagesError | async)?.error}}</div>
+                <form #formPhoto="ngForm" (ngSubmit)="onSubmitPhoto()" class="form">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Photo</mat-label>
+                        <app-file-input required name="image" ngModel #image="ngModel"></app-file-input>
+                    </mat-form-field>
                     <mat-error
-                            *ngIf="comment.touched && comment.hasError('required')"
-                    >Comment is required!
+                            *ngIf="image.touched && image.hasError('required')"
+                    >Picture is required!
                     </mat-error>
-                </mat-form-field>
-                <div class="btn-wrapper">
-                    <button
-                            type="submit"
-                            mat-raised-button
-                            color="primary"
-                            class="btn-send"
-                            [disabled]="formReview.invalid || (addReviewLoading | async)"
-                    >
-                        <mat-progress-spinner *ngIf="addReviewLoading | async else btnText" mode="indeterminate" [diameter]="25"></mat-progress-spinner>
-                        <ng-template #btnText>
-                            Send
-                        </ng-template>
-                    </button>
-                </div>
-            </form>
+                    <div class="btn-wrapper">
+                        <button
+                                type="submit"
+                                mat-raised-button
+                                color="primary"
+                                class="btn-send"
+                                [disabled]="formPhoto.invalid || (addImagesLoading | async)"
+                        >
+                            <mat-progress-spinner *ngIf="addImagesLoading | async else btnText" mode="indeterminate" [diameter]="25"></mat-progress-spinner>
+                            <ng-template #btnText>
+                                Send
+                            </ng-template>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="form-block-photo">
-            <h3 class="form-title">Add new photo</h3>
-            <div class="error" *ngIf="addImagesError | async"> {{(addImagesError | async)?.error}}</div>
-            <form #formPhoto="ngForm" (ngSubmit)="onSubmitPhoto()" class="form">
-                <mat-form-field appearance="outline">
-                    <mat-label>Photo</mat-label>
-                    <app-file-input required name="image" ngModel #image="ngModel"></app-file-input>
-                </mat-form-field>
-                <mat-error
-                        *ngIf="image.touched && image.hasError('required')"
-                >Picture is required!
-                </mat-error>
-                <div class="btn-wrapper">
-                    <button
-                            type="submit"
-                            mat-raised-button
-                            color="primary"
-                            class="btn-send"
-                            [disabled]="formPhoto.invalid || (addImagesLoading | async)"
-                    >
-                        <mat-progress-spinner *ngIf="addImagesLoading | async else btnText" mode="indeterminate" [diameter]="25"></mat-progress-spinner>
-                        <ng-template #btnText>
-                            Send
-                        </ng-template>
-                    </button>
-                </div>
-            </form>
-        </div>
+        <ng-template #formPhoto>
+            <div class="form-block-photo">
+                <h3 class="form-title">Register to leave a photo</h3>
+            </div>
+        </ng-template>
     </div>
 </ng-template>

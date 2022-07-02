@@ -6,7 +6,7 @@ import {
     addPlacesSuccess, fetchInformationPlaceFailure, fetchInformationPlaceRequest, fetchInformationPlaceSuccess,
     fetchPlacesFailure,
     fetchPlacesRequest,
-    fetchPlacesSuccess
+    fetchPlacesSuccess, removePlaceRequest
 } from "./place.actions";
 
 const initialState: PlaceState = {
@@ -33,4 +33,11 @@ export  const placeReducer = createReducer(
     on(addPlacesSuccess, state => ({...state, addLoading: false})),
     on(addPlacesFailure, (state, {error}) => ({...state, addLoading: false, addError: error})),
 
+    on(removePlaceRequest, (state, {placeId}) => {
+        const updatePlaces = state.places?.filter( place => {
+            return place._id !== placeId;
+        });
+
+        return {...state, photos: updatePlaces, removeLoading: true}
+    }),
 );

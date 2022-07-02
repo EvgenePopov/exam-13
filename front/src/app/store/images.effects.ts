@@ -9,7 +9,9 @@ import {
     addImageSuccess,
     fetchImagesFailure,
     fetchImagesRequest,
-    fetchImagesSuccess
+    fetchImagesSuccess,
+    removeImagesRequest,
+    removeImagesSuccess
 } from "./image.actions";
 import {AppState} from "./types";
 import {Store} from "@ngrx/store";
@@ -43,5 +45,16 @@ export class ImagesEffects {
             }),
             this.helpers.catchServerError(addImageFailure)
         ))));
+
+    removeImage = createEffect(() => this.actions.pipe(
+        ofType(removeImagesRequest),
+        mergeMap(({placeId}) => this.imagesService.removeImage(placeId).pipe(
+            map(() => removeImagesSuccess()),
+            tap (() => {
+                this.store.dispatch(fetchImagesRequest({placeId: placeId.placeId}))
+                this.helpers.openSnackbar('Delete done!');
+            }),
+        ))
+    ));
 
 }

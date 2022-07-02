@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment as env} from "../../environments/environment";
 import {map} from "rxjs";
 import {ReviewApiModel, ReviewModel} from "../models/review.model";
+import {RemoveImage} from "../models/image.model";
 
 @Injectable({
     providedIn: 'root'
@@ -32,6 +33,10 @@ export class ReviewsService {
 
     addReview(review: ReviewApiModel) {
         return this.http.post(env.apiUrl + '/reviews' , review);
+    }
+
+    removeReview(idData: RemoveImage) {
+        return this.http.delete(env.apiUrl + '/reviews/' + idData.id);
     }
 
 }

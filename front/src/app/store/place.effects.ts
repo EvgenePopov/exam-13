@@ -6,18 +6,26 @@ import {map, mergeMap, tap} from "rxjs";
 import {
     addPlacesFailure,
     addPlacesRequest,
-    addPlacesSuccess, fetchInformationPlaceFailure, fetchInformationPlaceRequest, fetchInformationPlaceSuccess,
+    addPlacesSuccess,
+    fetchInformationPlaceFailure,
+    fetchInformationPlaceRequest,
+    fetchInformationPlaceSuccess,
     fetchPlacesFailure,
     fetchPlacesRequest,
-    fetchPlacesSuccess
+    fetchPlacesSuccess,
+    removePlaceRequest,
+    removePlaceSuccess
 } from "./place.actions";
 import {PlacesService} from "../services/places.service";
+import {Store} from "@ngrx/store";
+import {AppState} from "./types";
 
 @Injectable()
 
 export class PlaceEffects {
     constructor(
         private actions: Actions,
+        private store: Store<AppState>,
         private placesService: PlacesService,
         private router: Router,
         private helpers: HelpersService,
@@ -46,5 +54,15 @@ export class PlaceEffects {
             }),
             this.helpers.catchServerError(addPlacesFailure)
         ))));
+
+    removePlace = createEffect(() => this.actions.pipe(
+        ofType(removePlaceRequest),
+        mergeMap(({placeId}) => this.placesService.removePlace(placeId).pipe(
+            map(() => removePlaceSuccess())
+        )),tap (() => {
+            this.helpers.openSnackbar('Delete done!');
+            this.store.dispatch(fetchPlacesRequest());
+        }),
+    ));
 
 }

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment as env} from "../../environments/environment";
 import {map} from "rxjs";
-import {ImageApiModel, ImageModel} from "../models/image.model";
+import {ImageApiModel, ImageModel, RemoveImage} from "../models/image.model";
 
 @Injectable({
     providedIn: 'root'
@@ -35,6 +35,10 @@ export class ImagesService {
         }
 
         return this.http.post(env.apiUrl + '/images' , formData);
+    }
+
+    removeImage(idData: RemoveImage) {
+        return this.http.delete(env.apiUrl + '/images/' + idData.id);
     }
 
 }

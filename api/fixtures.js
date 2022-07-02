@@ -37,7 +37,8 @@ const run = async () => {
         rating: 4,
         ratFood: 5,
         ratService: 5,
-        ratInterior: 4
+        ratInterior: 4,
+        amountPhoto: 3
     },{
         title: 'Кусаки (Biters)',
         description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dicta eos in minus nemo, nostrum ullam! Aut, commodi consequatur doloribus fuga placeat repellat reprehenderit voluptates.",
@@ -46,16 +47,18 @@ const run = async () => {
         rating: 4,
         ratFood: 5,
         ratService: 5,
-        ratInterior: 4
+        ratInterior: 4,
+        amountPhoto: 4
     },{
         title: 'Компот (Compote)',
         description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dicta eos in minus nemo, nostrum ullam! Aut, commodi consequatur doloribus fuga placeat repellat reprehenderit voluptates.",
         image: "place-3.jpeg",
         user: John,
         rating: 4,
-        ratFood: 5,
+        ratFood: 4,
         ratService: 5,
-        ratInterior: 4
+        ratInterior: 4,
+        amountPhoto: 5
     });
 
     await Images.create({

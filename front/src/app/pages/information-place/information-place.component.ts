@@ -8,10 +8,11 @@ import {AppState} from "../../store/types";
 import {ActivatedRoute} from "@angular/router";
 import {fetchInformationPlaceRequest} from "../../store/place.actions";
 import {AddImagesError, FetchImagesError, ImageModel} from "../../models/image.model";
-import {addImageRequest, fetchImagesRequest} from "../../store/image.actions";
+import {addImageRequest, fetchImagesRequest, removeImagesRequest} from "../../store/image.actions";
 import {AddReviewError, FetchReviewsError, ReviewModel} from "../../models/review.model";
-import {addReviewRequest, fetchReviewsRequest} from "../../store/reviews.actions";
+import {addReviewRequest, fetchReviewsRequest, removeReviewRequest} from "../../store/reviews.actions";
 import {NgbRatingConfig} from "@ng-bootstrap/ng-bootstrap";
+import {User} from "../../models/user.model";
 
 @Component({
   selector: 'app-information-place',
@@ -22,6 +23,7 @@ export class InformationPlaceComponent implements OnInit {
   @ViewChild('formPhoto') formPhoto!: NgForm;
   @ViewChild('formReview') formReview!: NgForm;
 
+  user: Observable<null | User>;
   place: Observable <null | PlaceModel>;
   images: Observable <null | ImageModel[]>;
   reviews: Observable <null | ReviewModel[]>;
@@ -45,6 +47,7 @@ export class InformationPlaceComponent implements OnInit {
       private route: ActivatedRoute,
       private config: NgbRatingConfig
   ) {
+    this.user = store.select(state => state.users.user);
     this.place = store.select(state => state.places.place);
     this.fetchLoading = store.select(state => state.places.fetchLoading);
     this.fetchError = store.select(state => state.places.fetchError);
@@ -94,6 +97,22 @@ export class InformationPlaceComponent implements OnInit {
     };
     this.store.dispatch(addReviewRequest({review}));
     this.formReview.resetForm();
+  }
+
+  RemoveImage(id: string) {
+    let placeId = {
+      id: id,
+      placeId: this.placeId
+    }
+    this.store.dispatch(removeImagesRequest({placeId}));
+  }
+
+  RemoveReview(id: string) {
+    let placeId = {
+      id: id,
+      placeId: this.placeId
+    }
+    this.store.dispatch(removeReviewRequest({placeId}));
   }
 
   ngOnDestroy() {

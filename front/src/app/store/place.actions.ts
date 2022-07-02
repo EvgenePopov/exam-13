@@ -12,3 +12,6 @@ export const fetchPlacesFailure = createAction('[Places] Fetch Failure', props<{
 export const addPlacesRequest = createAction('[Places] Add Request', props<{place: PlaceApiModel}>());
 export const addPlacesSuccess = createAction('[Places] Add Success');
 export const addPlacesFailure = createAction('[Places] Add Failure', props<{error: null | AddError}>());
+
+export const removePlaceRequest = createAction('[Places] Remove Request', props<{placeId: string}>());
+export const removePlaceSuccess = createAction('[Places] Remove Success');

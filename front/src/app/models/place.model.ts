@@ -12,6 +12,7 @@ export class PlaceModel {
         public ratFood: number,
         public ratService: number,
         public ratInterior: number,
+        public amountPhoto: number,
     ) {
     }
 }

@@ -5,7 +5,8 @@ import {
     addReviewSuccess,
     fetchReviewsFailure,
     fetchReviewsRequest,
-    fetchReviewsSuccess
+    fetchReviewsSuccess,
+    removeReviewRequest
 } from "./reviews.actions";
 import {ReviewsState} from "./types";
 
@@ -28,5 +29,13 @@ export  const reviewReducer = createReducer(
     on(addReviewRequest, state => ({...state, addReviewsLoading: true, addReviewsError: null})),
     on(addReviewSuccess, state => ({...state, addReviewsLoading: false})),
     on(addReviewFailure, (state, {error}) => ({...state, addReviewsLoading: false, addReviewsError: error})),
+
+    on(removeReviewRequest, (state, {placeId}) => {
+        const updateReviews = state.reviews?.filter( review => {
+            return review._id !== placeId.id;
+        });
+
+        return {...state, photos: updateReviews, removeLoading: true}
+    }),
 
 );

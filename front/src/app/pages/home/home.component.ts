@@ -5,8 +5,9 @@ import {environment} from "../../../environments/environment";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../store/types";
 import {Router} from "@angular/router";
-import {fetchPlacesRequest} from "../../store/place.actions";
+import {fetchPlacesRequest, removePlaceRequest} from "../../store/place.actions";
 import {NgbRatingConfig} from "@ng-bootstrap/ng-bootstrap";
+import {User} from "../../models/user.model";
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ import {NgbRatingConfig} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./home.component.sass']
 })
 export class HomeComponent implements OnInit {
+  user: Observable<null | User>;
   places: Observable< null | PlaceModel[]>;
   fetchLoading: Observable<null | boolean>;
   fetchError: Observable<null | FetchError>;
@@ -25,6 +27,7 @@ export class HomeComponent implements OnInit {
       private router: Router,
       private config: NgbRatingConfig
   ) {
+    this.user = store.select(state => state.users.user);
     this.places = store.select(state => state.places.places);
     this.fetchLoading = store.select(state => state.places.fetchLoading);
     this.fetchError = store.select(state => state.places.fetchError);
@@ -36,8 +39,10 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(fetchPlacesRequest());
   }
 
-  getInformation(id: string) {
-    void this.router.navigate([`/information-place/${id}`]);
+  RemovePlace(id: string) {
+    let placeId = id;
+    this.store.dispatch(removePlaceRequest({placeId}));
   }
+
 
 }

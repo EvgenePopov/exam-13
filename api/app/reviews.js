@@ -34,7 +34,7 @@ router.post('/', auth,  async (req, res, next) => {
         const place = await Place.findById({_id: req.body.place});
 
         const ratingData = {
-            rating: Math.round(((place.rating + req.body.ratFood + req.body.ratService + req.body.ratInterior) / 3)),
+            rating: Math.round(((req.body.ratFood + req.body.ratService + req.body.ratInterior) / 3)),
             ratFood: Math.round(((place.ratFood + req.body.ratFood) / 2)),
             ratService: Math.round(((place.ratService + req.body.ratService) / 2)),
             ratInterior: Math.round(((place.ratInterior + req.body.ratInterior) / 2)),
@@ -47,6 +47,22 @@ router.post('/', auth,  async (req, res, next) => {
         await review.save();
 
         return res.send({message: 'Added new review in database'});
+
+    } catch (e) {
+        return next(e)
+    }
+});
+
+router.delete('/:id', auth, async (req, res, next) => {
+    try {
+
+        if (req.user.role === 'admin') {
+            const review = await Reviews.deleteOne({_id: req.params.id});
+
+            return res.send(review);
+        }
+
+        return  res.status(400).send({error: 'You don`t and it`s right'});
 
     } catch (e) {
         return next(e)
