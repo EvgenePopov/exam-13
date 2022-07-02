@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const app = express();
 const config = require('./config');
 const users = require('./app/users');
+const places = require('./app/places');
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -19,6 +20,7 @@ app.use(cors({corsOptions}));
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/users', users);
+app.use('/places', places);
 
 
 const run = async () => {

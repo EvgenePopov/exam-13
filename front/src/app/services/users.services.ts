@@ -11,12 +11,7 @@ export class UsersService {
     constructor(private http: HttpClient) {}
 
     registerUser(userData: RegisterUserData) {
-        const formData = new FormData();
-        formData.append('email', userData.email);
-        formData.append('name', userData.name);
-        formData.append('password', userData.password);
-
-        return this.http.post<User>(env.apiUrl + '/users', formData);
+        return this.http.post<User>(env.apiUrl + '/users', userData);
     }
 
     login(userData: LoginUserData) {

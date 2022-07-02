@@ -1,1 +1,30 @@
-<p>home works!</p>
+<div class="error" *ngIf="fetchError | async"> {{fetchError | async}}</div>
+<mat-progress-spinner *ngIf="fetchLoading | async else placesArea" mode="indeterminate"></mat-progress-spinner>
+
+<ng-template #placesArea>
+    <div fxLayout="row wrap" fxLayoutGap="16px grid">
+        <div
+                fxFlex.xs="100%"
+                fxFlex.sm="50%"
+                fxFlex.lt-lg="33%"
+                fxFlex="33%"
+                *ngFor="let place of places | async"
+        >
+            <mat-card class="card" (click)="getInformation(place._id)">
+                <div class="img-block">
+                    <img mat-card-image class="img" *ngIf="place" [src]="apiUrl + '/uploads/' + place.image" [alt]="place.title">
+                </div>
+                <mat-card-header>
+                    <mat-card-title>{{ place.title }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button>LIKE</button>
+                    <button mat-button>SHARE</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</ng-template>

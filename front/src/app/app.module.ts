@@ -33,6 +33,7 @@ import { InformationPlaceComponent } from './pages/information-place/information
 import {placeReducer} from "./store/place.reducer";
 import {PlaceEffects} from "./store/place.effects";
 import { HomeComponent } from './pages/home/home.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 export const localStorageSyncReducer = (reducer: ActionReducer<any>) => {
     return localStorageSync({
@@ -78,6 +79,7 @@ const metaReducers: Array<MetaReducer> = [localStorageSyncReducer];
         MatInputModule,
         FlexModule,
         MatCardModule,
+        MatProgressSpinnerModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

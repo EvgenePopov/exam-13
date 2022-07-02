@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const {nanoid} = require("nanoid");
 const config = require("./config");
 const User = require("./models/User");
-const {nanoid} = require("nanoid");
+const Place = require("./models/Place");
 
 const run = async () => {
     await mongoose.connect(config.mongo.db, config.mongo.options);
@@ -17,11 +18,30 @@ const run = async () => {
         password: '123',
         name: 'Jack Doe',
         token: nanoid(),
+        role: "user",
     },{
         email: 'john@test.com',
         password: '123',
         name: 'John Doe',
         token: nanoid(),
+        role: "admin",
+    });
+
+    const [Marzipan, Biters, Compote] = await Place.create({
+        title: 'Марципан',
+        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dicta eos in minus nemo, nostrum ullam! Aut, commodi consequatur doloribus fuga placeat repellat reprehenderit voluptates.",
+        image: "place-1.jpeg",
+        user: John
+    },{
+        title: 'Кусаки',
+        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dicta eos in minus nemo, nostrum ullam! Aut, commodi consequatur doloribus fuga placeat repellat reprehenderit voluptates.",
+        image: "place-2.jpeg",
+        user: Jack
+    },{
+        title: 'Компот',
+        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dicta eos in minus nemo, nostrum ullam! Aut, commodi consequatur doloribus fuga placeat repellat reprehenderit voluptates.",
+        image: "place-3.jpeg",
+        user: John
     });
 
     await mongoose.connection.close();
