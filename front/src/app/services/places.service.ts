@@ -35,6 +35,7 @@ export class PlacesService {
         const formData = new FormData();
         formData.append('title', place.title);
         formData.append('description', place.description);
+        formData.append('agreement', place.agreement);
 
         if (place.image) {
             formData.append('image', place.image);

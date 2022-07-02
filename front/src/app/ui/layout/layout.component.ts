@@ -7,6 +7,7 @@ import {User} from "../../models/user.model";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../store/types";
 import {logoutUserRequest} from "../../store/users.actions";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-layout',
@@ -26,7 +27,11 @@ export class LayoutComponent {
           shareReplay()
       );
 
-  constructor(private breakpointObserver: BreakpointObserver, private store: Store<AppState>) {
+  constructor(
+      private breakpointObserver: BreakpointObserver,
+      private store: Store<AppState>,
+      private router: Router,
+      ) {
     this.user = store.select(state => state.users.user);
   }
 
@@ -40,5 +45,9 @@ export class LayoutComponent {
 
   onResize(event: any) {
     this.changeOnMenuReg = this.breakpoint >= event.target.innerWidth;
+  }
+
+  addNew() {
+    void this.router.navigate(['/add-new-place']);
   }
 }

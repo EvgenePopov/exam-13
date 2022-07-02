@@ -21,4 +21,9 @@ export interface PlaceApiModel {
     },
     description: string,
     image: string | File,
+    agreement: any | boolean,
+}
+
+export interface AddError {
+    error: string
 }

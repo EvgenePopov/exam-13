@@ -1,0 +1,57 @@
+<mat-card class="form-card">
+    <div class="error" *ngIf="addError | async"> {{(addError | async)?.error}}</div>
+    <mat-card-title class="form-title">Add new place</mat-card-title>
+    <mat-card-content>
+        <form #form="ngForm" (ngSubmit)="onSubmit()" class="form">
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input
+                        type="text" name="title"
+                        required matInput ngModel #title="ngModel"
+                />
+                <mat-error
+                        *ngIf="title.touched && title.hasError('required')"
+                >Name is required!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea
+                        type="text" name="description"
+                        required matInput ngModel #description="ngModel"
+                >
+
+                </textarea>
+                <mat-error
+                        *ngIf="description.touched && description.hasError('required')"
+                >Description is required!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Photo</mat-label>
+                <app-file-input required name="image" ngModel #image="ngModel"></app-file-input>
+            </mat-form-field>
+            <mat-error
+                    *ngIf="image.touched && image.hasError('required')"
+            >Picture name is required!
+            </mat-error>
+            <p>Give your agreement to view your publications <mat-checkbox name="agreement" required ngModel #agreement="ngModel">I agree</mat-checkbox>
+            </p>
+            <mat-error
+                    *ngIf="agreement.touched && agreement.hasError('required')"
+            >Agreement is required!
+            </mat-error>
+            <div class="btn-wrapper">
+                <button
+                        type="submit"
+                        mat-raised-button
+                        color="primary"
+                        class="btn-send"
+                        [disabled]="form.invalid || ( addLoading | async )"
+                >Send
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
+    <mat-progress-bar *ngIf="addLoading | async" mode="indeterminate"></mat-progress-bar>
+</mat-card>
