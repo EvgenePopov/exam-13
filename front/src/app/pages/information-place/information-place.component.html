@@ -74,51 +74,54 @@
             </div>
         </div>
         <div class="reviews-block">
-            <h3 class="gallery-title" >Reviews</h3>
-            <div class="review-item" *ngFor="let review of reviews | async">
-                <div class="review">
-                    <h4>Date: </h4>
-                    <p>{{review.date}}</p>
-                    <div class="remove" *ngIf="(user | async)?.role === 'admin'">
-                        <button mat-raised-button color="warn" (click)="RemoveReview(review._id)">Delete</button>
+            <h3 class="gallery-title" *ngIf="(reviews | async)?.length === 0 else reviewArea">No reviews yet</h3>
+            <ng-template #reviewArea>
+                <h3 class="gallery-title" >Reviews</h3>
+                <div class="review-item" *ngFor="let review of reviews | async">
+                    <div class="review">
+                        <h4>Date: </h4>
+                        <p>{{review.date}}</p>
+                        <div class="remove" *ngIf="(user | async)?.role === 'admin'">
+                            <button mat-raised-button color="warn" (click)="RemoveReview(review._id)">Delete</button>
+                        </div>
+                    </div>
+                    <div class="review">
+                        <h3><i>{{review.user.name}}</i></h3>
+                        <p>said:</p>
+                    </div>
+                    <div class="review comment">
+                        <p>Comment:</p>
+                        <p>{{review.comment}}</p>
+                    </div>
+                    <div class="review">
+                        <p>Quality of food: </p>
+                        <ngb-rating [(rate)]="review.ratFood">
+                            <ng-template let-fill="fill" let-index="index">
+                                <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                            </ng-template>
+                        </ngb-rating>
+                        <p>{{review.ratFood}}</p>
+                    </div>
+                    <div class="review">
+                        <p>Service quality: </p>
+                        <ngb-rating [(rate)]="review.ratService">
+                            <ng-template let-fill="fill" let-index="index">
+                                <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                            </ng-template>
+                        </ngb-rating>
+                        <p>{{review.ratService}}</p>
+                    </div>
+                    <div class="review">
+                        <p>Interior: </p>
+                        <ngb-rating [(rate)]="review.ratInterior">
+                            <ng-template let-fill="fill" let-index="index">
+                                <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                            </ng-template>
+                        </ngb-rating>
+                        <p>{{review.ratInterior}}</p>
                     </div>
                 </div>
-                <div class="review">
-                    <h3><i>{{review.user.name}}</i></h3>
-                    <p>said:</p>
-                </div>
-                <div class="review comment">
-                    <p>Comment:</p>
-                    <p>{{review.comment}}</p>
-                </div>
-                <div class="review">
-                    <p>Quality of food: </p>
-                    <ngb-rating [(rate)]="review.ratFood">
-                        <ng-template let-fill="fill" let-index="index">
-                            <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
-                        </ng-template>
-                    </ngb-rating>
-                    <p>{{review.ratFood}}</p>
-                </div>
-                <div class="review">
-                    <p>Service quality: </p>
-                    <ngb-rating [(rate)]="review.ratService">
-                        <ng-template let-fill="fill" let-index="index">
-                            <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
-                        </ng-template>
-                    </ngb-rating>
-                    <p>{{review.ratService}}</p>
-                </div>
-                <div class="review">
-                    <p>Interior: </p>
-                    <ngb-rating [(rate)]="review.ratInterior">
-                        <ng-template let-fill="fill" let-index="index">
-                            <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
-                        </ng-template>
-                    </ngb-rating>
-                    <p>{{review.ratInterior}}</p>
-                </div>
-            </div>
+            </ng-template>
         </div>
         <div *appUserType="'user' else formRev">
             <div class="form-block-photo">
