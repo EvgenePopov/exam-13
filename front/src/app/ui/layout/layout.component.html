@@ -19,12 +19,14 @@
         <a routerLink="/" class="logo-link">Front</a>
       </div>
       <nav *appUserType="'user' else anonMenu">
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>account_circle</mat-icon>
-        </button>
+        <div class="block">
+          <button mat-menu-item (click)="addNew()">Add new place</button>
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>account_circle</mat-icon>
+          </button>
+        </div>
         <mat-menu #menu="matMenu" class="user-menu">
           <button mat-menu-item [disabled]="true">{{ (user | async)?.name }}</button>
-          <button mat-menu-item (click)="addNew()">Add new place</button>
           <button mat-menu-item (click)="logout()">Logout</button>
         </mat-menu>
       </nav>

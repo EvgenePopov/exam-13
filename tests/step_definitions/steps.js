@@ -7,6 +7,8 @@ Given('я нахожусь на странице {string}', (page) => {
             return I.amOnPage('/register');
         case 'Логин':
             return I.amOnPage('/login');
+        case 'Добавление заведения':
+            return I.amOnPage('/add-new-place');
         default:
             return I.amOnPage('/');
     }
@@ -24,7 +26,16 @@ Given('нажимаю на кнопку формы {string}', (buttonText) => {
     I.click(buttonText, {css: 'form'});
 });
 
+Given('я кликаю на текст {string}', (text) => {
+    I.click(text);
+});
+
 Given('я должен увидеть текст {string}', (text) => {
     I.wait(2);
     I.see(text);
 });
+
+Given('я выбераю файл', (text) => {
+    I.attachFile('form input[type=file]', 'test-images/test.webp');
+});
+

@@ -77,25 +77,6 @@ router.post('/', auth, upload.single('image'), async (req, res, next) => {
    }
 });
 
-router.delete('/:id', auth, async (req, res, next) => {
-    try {
-
-        if (req.user.role === 'admin'){
-            const place = await Place.deleteOne({_id: req.params.id});
-
-            await Image.deleteMany({place: req.params.id});
-
-            await Reviews.deleteMany({place: req.params.id});
-
-            return res.send(place);
-        }
-
-        return  res.status(400).send({error: 'You don`t and it`s right'});
-
-    } catch (e) {
-        return next(e)
-    }
-});
 
 
 module.exports = router;
