@@ -3,6 +3,7 @@ const {nanoid} = require("nanoid");
 const config = require("./config");
 const User = require("./models/User");
 const Place = require("./models/Place");
+const Images = require("./models/Images");
 
 const run = async () => {
     await mongoose.connect(config.mongo.db, config.mongo.options);
@@ -43,6 +44,56 @@ const run = async () => {
         image: "place-3.jpeg",
         user: John
     });
+
+    await Images.create({
+        user: Jack,
+        place: Marzipan,
+        image: "item-1.jpeg"
+    },{
+        user: John,
+        place: Marzipan,
+        image: "item-2.jpeg"
+    },{
+        user: Jack,
+        place: Marzipan,
+        image: "item-4.jpeg"
+    },{
+        user: John,
+        place: Biters,
+        image: "item-3.jpeg"
+    },{
+        user: John,
+        place: Biters,
+        image: "item-2.jpeg"
+    },{
+        user: Jack,
+        place: Biters,
+        image: "item-5.jpeg"
+    },{
+        user: Jack,
+        place: Biters,
+        image: "item-4.jpeg"
+    },{
+        user: Jack,
+        place: Compote,
+        image: "item-4.jpeg"
+    },{
+        user: John,
+        place: Compote,
+        image: "item-3.jpeg"
+    },{
+        user: John,
+        place: Compote,
+        image: "item-2.jpeg"
+    },{
+        user: Jack,
+        place: Compote,
+        image: "item-5.jpeg"
+    },{
+        user: Jack,
+        place: Compote,
+        image: "item-1.jpeg"
+    },);
 
     await mongoose.connection.close();
 };

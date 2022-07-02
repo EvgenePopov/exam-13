@@ -5,6 +5,7 @@ const app = express();
 const config = require('./config');
 const users = require('./app/users');
 const places = require('./app/places');
+const images = require('./app/images');
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use('/users', users);
 app.use('/places', places);
+app.use('/images', images);
 
 
 const run = async () => {
