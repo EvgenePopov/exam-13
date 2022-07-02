@@ -1,6 +1,8 @@
 import { LoginError, RegisterError, User } from '../models/user.model';
 import {AddError, FetchError, PlaceModel} from "../models/place.model";
 import {AddImagesError, FetchImagesError, ImageModel} from "../models/image.model";
+import {AddReviewError, FetchReviewsError, ReviewModel} from "../models/review.model";
+
 
 export type UserState = {
     user: null | User,
@@ -27,8 +29,17 @@ export type ImagesState = {
     addImagesError: null | AddImagesError,
 };
 
+export type ReviewsState = {
+    reviews: null | ReviewModel[],
+    fetchReviewsLoading: boolean,
+    fetchReviewsError: null | FetchReviewsError,
+    addReviewsLoading: boolean,
+    addReviewsError: null | AddReviewError,
+};
+
 export type AppState = {
     users: UserState,
     places: PlaceState,
     images: ImagesState,
+    reviews: ReviewsState,
 }

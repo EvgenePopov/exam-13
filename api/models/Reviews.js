@@ -1,28 +1,20 @@
 const mongoose = require('mongoose');
 const {Schema} = require("mongoose");
 
-const PlaceSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        require
-    },
-    description: {
-        type: String,
-        require
-    },
-    image: {
-        type: String,
-        required: true,
-    },
+const ReviewsSchema = new mongoose.Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    rating: {
-        type: Number,
-        default: 0,
-        max: 5.0
+    place: {
+        type: Schema.Types.ObjectId,
+        ref: 'Place',
+        required: true
+    },
+    comment: {
+        type: String,
+        required: true,
     },
     ratFood: {
         type: Number,
@@ -39,9 +31,13 @@ const PlaceSchema = new mongoose.Schema({
         default: 0,
         max: 5.0
     },
+    date: {
+        type: String,
+        default: new Date()
+    }
 
 });
 
-const Place = mongoose.model('Place' ,PlaceSchema);
+const Reviews = mongoose.model('Reviews' ,ReviewsSchema);
 
-module.exports = Place;
+module.exports = Reviews;

@@ -24,7 +24,11 @@ export class PlacesService {
                         placeData.title,
                         placeData.user,
                         placeData.description,
-                        placeData.image
+                        placeData.image,
+                        placeData.rating,
+                        placeData.ratFood,
+                        placeData.ratService,
+                        placeData.ratInterior
                     )
                 });
             })

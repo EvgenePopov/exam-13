@@ -6,6 +6,7 @@ import {Store} from "@ngrx/store";
 import {AppState} from "../../store/types";
 import {Router} from "@angular/router";
 import {fetchPlacesRequest} from "../../store/place.actions";
+import {NgbRatingConfig} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-home',
@@ -22,10 +23,13 @@ export class HomeComponent implements OnInit {
   constructor(
       private store: Store<AppState>,
       private router: Router,
+      private config: NgbRatingConfig
   ) {
     this.places = store.select(state => state.places.places);
     this.fetchLoading = store.select(state => state.places.fetchLoading);
     this.fetchError = store.select(state => state.places.fetchError);
+    config.max = 5;
+    config.readonly = true;
   }
 
   ngOnInit(): void {

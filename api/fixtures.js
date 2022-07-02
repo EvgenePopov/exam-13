@@ -4,6 +4,7 @@ const config = require("./config");
 const User = require("./models/User");
 const Place = require("./models/Place");
 const Images = require("./models/Images");
+const Reviews = require("./models/Reviews");
 
 const run = async () => {
     await mongoose.connect(config.mongo.db, config.mongo.options);
@@ -32,17 +33,29 @@ const run = async () => {
         title: 'Марципан (Marzipan)',
         description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dicta eos in minus nemo, nostrum ullam! Aut, commodi consequatur doloribus fuga placeat repellat reprehenderit voluptates.",
         image: "place-1.jpeg",
-        user: John
+        user: John,
+        rating: 4,
+        ratFood: 5,
+        ratService: 5,
+        ratInterior: 4
     },{
         title: 'Кусаки (Biters)',
         description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dicta eos in minus nemo, nostrum ullam! Aut, commodi consequatur doloribus fuga placeat repellat reprehenderit voluptates.",
         image: "place-2.jpeg",
-        user: Jack
+        user: Jack,
+        rating: 4,
+        ratFood: 5,
+        ratService: 5,
+        ratInterior: 4
     },{
         title: 'Компот (Compote)',
         description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dicta eos in minus nemo, nostrum ullam! Aut, commodi consequatur doloribus fuga placeat repellat reprehenderit voluptates.",
         image: "place-3.jpeg",
-        user: John
+        user: John,
+        rating: 4,
+        ratFood: 5,
+        ratService: 5,
+        ratInterior: 4
     });
 
     await Images.create({
@@ -94,6 +107,50 @@ const run = async () => {
         place: Compote,
         image: "item-1.jpeg"
     },);
+
+    await Reviews.create({
+        user: Jack,
+        place: Compote,
+        comment: "Good place and good food",
+        ratFood: 5,
+        ratService: 5,
+        ratInterior: 4
+    },{
+        user: John,
+        place: Compote,
+        comment: "Good place and good service",
+        ratFood: 5,
+        ratService: 5,
+        ratInterior: 4
+    },{
+        user: Jack,
+        place: Biters,
+        comment: "Good place and bad food",
+        ratFood: 2,
+        ratService: 5,
+        ratInterior: 4
+    },{
+        user: John,
+        place: Biters,
+        comment: "Good place and bad service",
+        ratFood: 5,
+        ratService: 1,
+        ratInterior: 4
+    },{
+        user: Jack,
+        place: Marzipan,
+        comment: "Good place",
+        ratFood: 5,
+        ratService: 5,
+        ratInterior: 5
+    },{
+        user: John,
+        place: Marzipan,
+        comment: "Good place",
+        ratFood: 5,
+        ratService: 5,
+        ratInterior: 5
+    },)
 
     await mongoose.connection.close();
 };

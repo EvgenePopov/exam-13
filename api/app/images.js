@@ -5,7 +5,6 @@ const path = require("path");
 const auth = require("../middleware/auth");
 const {nanoid} = require("nanoid");
 const Image = require("../models/Images");
-const {uploadsPath} = require("../config");
 
 const router = express.Router();
 

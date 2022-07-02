@@ -51,7 +51,6 @@ router.get('/', async (req, res, next) => {
 router.post('/', auth, upload.single('image'), async (req, res, next) => {
     try {
         if (req.body.agreement === "true") {
-            console.log(req.body);
             const placeData = {
                 title: req.body.title,
                 user: req.user._id,

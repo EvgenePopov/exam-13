@@ -40,6 +40,9 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {AuthInterceptor} from "./auth.iterceptor";
 import {imageReducer} from "./store/image.reducer";
 import {ImagesEffects} from "./store/images.effects";
+import {reviewReducer} from "./store/reviews.reducer";
+import {ReviewsEffects} from "./store/reviews.effects";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export const localStorageSyncReducer = (reducer: ActionReducer<any>) => {
     return localStorageSync({
@@ -79,8 +82,9 @@ const metaReducers: Array<MetaReducer> = [localStorageSyncReducer];
             users: userReducer,
             places: placeReducer,
             images: imageReducer,
+            reviews: reviewReducer,
         }, {metaReducers}),
-        EffectsModule.forRoot([UsersEffects, PlaceEffects, ImagesEffects]),
+        EffectsModule.forRoot([UsersEffects, PlaceEffects, ImagesEffects, ReviewsEffects]),
         MatMenuModule,
         MatSnackBarModule,
         MatProgressBarModule,
@@ -90,6 +94,7 @@ const metaReducers: Array<MetaReducer> = [localStorageSyncReducer];
         MatCardModule,
         MatProgressSpinnerModule,
         MatCheckboxModule,
+        NgbModule,
     ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]

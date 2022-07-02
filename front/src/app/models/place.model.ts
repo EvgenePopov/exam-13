@@ -8,6 +8,10 @@ export class PlaceModel {
         },
         public description: string,
         public image: string | File,
+        public rating: number,
+        public ratFood: number,
+        public ratService: number,
+        public ratInterior: number,
     ) {
     }
 }

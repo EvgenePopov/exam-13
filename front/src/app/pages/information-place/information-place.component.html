@@ -14,20 +14,182 @@
         </div>
         <div class="gallery-block">
             <h3 class="gallery-title">Gallery</h3>
-            <mat-progress-spinner *ngIf="fetchImagesLoading | async else imageArea" mode="indeterminate"></mat-progress-spinner>
-            <div class="error" *ngIf="fetchImagesError | async"> {{(fetchImagesError | async)?.error}}</div>
-            <ng-template #imageArea>
-                <div class="gallery" *ngIf="images | async">
-                    <div *ngFor="let image of images | async">
-                        <div class="gallery-img-block">
-                            <img class="gallery-img" [src]="apiUrl + '/uploads/' + image.image" [alt]="placeData.title">
+            <div *ngIf="(images | async)?.length !== 0 else isEmpty">
+                <mat-progress-spinner *ngIf="fetchImagesLoading | async else imageArea" mode="indeterminate"></mat-progress-spinner>
+                <div class="error" *ngIf="fetchImagesError | async"> {{(fetchImagesError | async)?.error}}</div>
+                <ng-template #imageArea>
+                    <div class="gallery" *ngIf="images | async">
+                        <div *ngFor="let image of images | async">
+                            <div class="gallery-img-block">
+                                <img class="gallery-img" [src]="apiUrl + '/uploads/' + image.image" [alt]="placeData.title">
+                            </div>
                         </div>
                     </div>
-                </div>
+                </ng-template>
+            </div>
+            <ng-template #isEmpty>
+                <p class="isEmpty">There are no added photos yet</p>
             </ng-template>
+        </div>
+        <div class="reviews-block">
+            <h3 class="gallery-title" >Rating:</h3>
+            <div class="review">
+                <p class="overall">Overall: </p>
+                <ngb-rating [(rate)]="placeData.rating">
+                    <ng-template let-fill="fill" let-index="index">
+                        <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                    </ng-template>
+                </ngb-rating>
+                <p>{{placeData.rating}}</p>
+            </div>
+            <div class="review">
+                <p>Quality of food: </p>
+                <ngb-rating [(rate)]="placeData.ratFood">
+                    <ng-template let-fill="fill" let-index="index">
+                        <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                    </ng-template>
+                </ngb-rating>
+                <p>{{placeData.ratFood}}</p>
+            </div>
+            <div class="review">
+                <p>Service quality: </p>
+                <ngb-rating [(rate)]="placeData.ratService">
+                    <ng-template let-fill="fill" let-index="index">
+                        <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                    </ng-template>
+                </ngb-rating>
+                <p>{{placeData.ratService}}</p>
+            </div>
+            <div class="review">
+                <p>Interior: </p>
+                <ngb-rating [(rate)]="placeData.ratInterior">
+                    <ng-template let-fill="fill" let-index="index">
+                        <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                    </ng-template>
+                </ngb-rating>
+                <p>{{placeData.ratInterior}}</p>
+            </div>
+        </div>
+        <div class="reviews-block">
+            <h3 class="gallery-title" >Reviews</h3>
+            <div class="review-item" *ngFor="let review of reviews | async">
+                <div class="review">
+                    <h4>Date: </h4>
+                    <p>{{review.date}}</p>
+                </div>
+                <div class="review">
+                    <h3><i>{{review.user.name}}</i></h3>
+                    <p>said:</p>
+                </div>
+                <div class="review comment">
+                    <p>Comment:</p>
+                    <p>{{review.comment}}</p>
+                </div>
+                <div class="review">
+                    <p>Quality of food: </p>
+                    <ngb-rating [(rate)]="review.ratFood">
+                        <ng-template let-fill="fill" let-index="index">
+                            <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                        </ng-template>
+                    </ngb-rating>
+                    <p>{{review.ratFood}}</p>
+                </div>
+                <div class="review">
+                    <p>Service quality: </p>
+                    <ngb-rating [(rate)]="review.ratService">
+                        <ng-template let-fill="fill" let-index="index">
+                            <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                        </ng-template>
+                    </ngb-rating>
+                    <p>{{review.ratService}}</p>
+                </div>
+                <div class="review">
+                    <p>Interior: </p>
+                    <ngb-rating [(rate)]="review.ratInterior">
+                        <ng-template let-fill="fill" let-index="index">
+                            <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+                        </ng-template>
+                    </ngb-rating>
+                    <p>{{review.ratInterior}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="form-block-photo">
+            <h3 class="form-title">Add review</h3>
+            <form #formReview="ngForm" (ngSubmit)="onSubmitReview()" class="form">
+                <div class="form-rating">
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Food</mat-label>
+                            <input
+                                    type="number" name="ratFood" max="5" min="0"
+                                    required matInput ngModel #ratFood="ngModel"
+                            />
+                        </mat-form-field>
+                        <mat-error
+                                *ngIf="ratFood.touched && ratFood.hasError('required')"
+                        >Food rating is required!
+                        </mat-error>
+                    </div>
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Service</mat-label>
+                            <input
+                                    type="number" name="ratService" max="5" min="0"
+                                    required matInput ngModel #ratService="ngModel"
+                            />
+                        </mat-form-field>
+                        <mat-error
+                                *ngIf="ratService.touched && ratService.hasError('required')"
+                        >Service rating is required!
+                        </mat-error>
+                    </div>
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Interior</mat-label>
+                            <input
+                                    type="number" name="ratInterior" max="5" min="0"
+                                    required matInput ngModel #ratInterior="ngModel"
+                            />
+                        </mat-form-field>
+                        <mat-error
+                                *ngIf="ratInterior.touched && ratInterior.hasError('required')"
+                        >Interior rating is required!
+                        </mat-error>
+                    </div>
+                </div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Comment</mat-label>
+                    <textarea
+                            type="text" name="comment"
+                            required matInput ngModel #comment="ngModel"
+                    >
+
+                </textarea>
+                    <mat-error
+                            *ngIf="comment.touched && comment.hasError('required')"
+                    >Comment is required!
+                    </mat-error>
+                </mat-form-field>
+                <div class="btn-wrapper">
+                    <button
+                            type="submit"
+                            mat-raised-button
+                            color="primary"
+                            class="btn-send"
+                            [disabled]="formReview.invalid || (addReviewLoading | async)"
+                    >
+                        <mat-progress-spinner *ngIf="addReviewLoading | async else btnText" mode="indeterminate" [diameter]="25"></mat-progress-spinner>
+                        <ng-template #btnText>
+                            Send
+                        </ng-template>
+                    </button>
+                </div>
+            </form>
         </div>
         <div class="form-block-photo">
             <h3 class="form-title">Add new photo</h3>
+            <div class="error" *ngIf="addImagesError | async"> {{(addImagesError | async)?.error}}</div>
             <form #formPhoto="ngForm" (ngSubmit)="onSubmitPhoto()" class="form">
                 <mat-form-field appearance="outline">
                     <mat-label>Photo</mat-label>
@@ -35,7 +197,7 @@
                 </mat-form-field>
                 <mat-error
                         *ngIf="image.touched && image.hasError('required')"
-                >Picture name is required!
+                >Picture is required!
                 </mat-error>
                 <div class="btn-wrapper">
                     <button
