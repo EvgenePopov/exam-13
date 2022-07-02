@@ -12,5 +12,46 @@
                 <p class="description">{{ placeData.description }}</p>
             </div>
         </div>
+        <div class="gallery-block">
+            <h3 class="gallery-title">Gallery</h3>
+            <mat-progress-spinner *ngIf="fetchImagesLoading | async else imageArea" mode="indeterminate"></mat-progress-spinner>
+            <div class="error" *ngIf="fetchImagesError | async"> {{(fetchImagesError | async)?.error}}</div>
+            <ng-template #imageArea>
+                <div class="gallery" *ngIf="images | async">
+                    <div *ngFor="let image of images | async">
+                        <div class="gallery-img-block">
+                            <img class="gallery-img" [src]="apiUrl + '/uploads/' + image.image" [alt]="placeData.title">
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+        <div class="form-block-photo">
+            <h3 class="form-title">Add new photo</h3>
+            <form #formPhoto="ngForm" (ngSubmit)="onSubmitPhoto()" class="form">
+                <mat-form-field appearance="outline">
+                    <mat-label>Photo</mat-label>
+                    <app-file-input required name="image" ngModel #image="ngModel"></app-file-input>
+                </mat-form-field>
+                <mat-error
+                        *ngIf="image.touched && image.hasError('required')"
+                >Picture name is required!
+                </mat-error>
+                <div class="btn-wrapper">
+                    <button
+                            type="submit"
+                            mat-raised-button
+                            color="primary"
+                            class="btn-send"
+                            [disabled]="formPhoto.invalid || (addImagesLoading | async)"
+                    >
+                        <mat-progress-spinner *ngIf="addImagesLoading | async else btnText" mode="indeterminate" [diameter]="25"></mat-progress-spinner>
+                        <ng-template #btnText>
+                            Send
+                        </ng-template>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </ng-template>

@@ -38,6 +38,8 @@ import {AddNewPlaceComponent} from './pages/add-new-place/add-new-place.componen
 import {FileInputComponent} from "./ui/file-input/file-input.component";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {AuthInterceptor} from "./auth.iterceptor";
+import {imageReducer} from "./store/image.reducer";
+import {ImagesEffects} from "./store/images.effects";
 
 export const localStorageSyncReducer = (reducer: ActionReducer<any>) => {
     return localStorageSync({
@@ -76,8 +78,9 @@ const metaReducers: Array<MetaReducer> = [localStorageSyncReducer];
         StoreModule.forRoot({
             users: userReducer,
             places: placeReducer,
+            images: imageReducer,
         }, {metaReducers}),
-        EffectsModule.forRoot([UsersEffects, PlaceEffects]),
+        EffectsModule.forRoot([UsersEffects, PlaceEffects, ImagesEffects]),
         MatMenuModule,
         MatSnackBarModule,
         MatProgressBarModule,

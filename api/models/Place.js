@@ -11,7 +11,8 @@ const PlaceSchema = new mongoose.Schema({
         require
     },
     image: {
-        type: String
+        type: String,
+        required: true,
     },
     user: {
         type: Schema.Types.ObjectId,

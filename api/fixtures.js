@@ -60,7 +60,7 @@ const run = async () => {
     },{
         user: John,
         place: Biters,
-        image: "item-3.jpeg"
+        image: "item-3.png"
     },{
         user: John,
         place: Biters,
@@ -80,7 +80,7 @@ const run = async () => {
     },{
         user: John,
         place: Compote,
-        image: "item-3.jpeg"
+        image: "item-3.png"
     },{
         user: John,
         place: Compote,

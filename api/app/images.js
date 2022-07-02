@@ -5,6 +5,7 @@ const path = require("path");
 const auth = require("../middleware/auth");
 const {nanoid} = require("nanoid");
 const Image = require("../models/Images");
+const {uploadsPath} = require("../config");
 
 const router = express.Router();
 
@@ -25,11 +26,7 @@ router.get('/:id', async (req, res, next) => {
     try {
         const images = await Image.find({place: req.params.id});
 
-        if (images) {
-            return res.send(images);
-        }
-
-        return res.status(400).send({error: "Not found Images!"});
+        return res.send(images);
 
     } catch (e) {
         return next(e);
@@ -39,10 +36,9 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', auth, upload.single('image'), async (req, res, next) => {
     try {
-
         const imageData = {
             user: req.user._id,
-            place: req.body.place,
+            place: req.body.placeId,
             image: null
         }
 
