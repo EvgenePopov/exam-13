@@ -28,17 +28,17 @@ const run = async () => {
     });
 
     const [Marzipan, Biters, Compote] = await Place.create({
-        title: 'Марципан',
+        title: 'Марципан (Marzipan)',
         description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dicta eos in minus nemo, nostrum ullam! Aut, commodi consequatur doloribus fuga placeat repellat reprehenderit voluptates.",
         image: "place-1.jpeg",
         user: John
     },{
-        title: 'Кусаки',
+        title: 'Кусаки (Biters)',
         description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dicta eos in minus nemo, nostrum ullam! Aut, commodi consequatur doloribus fuga placeat repellat reprehenderit voluptates.",
         image: "place-2.jpeg",
         user: Jack
     },{
-        title: 'Компот',
+        title: 'Компот (Compote)',
         description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dicta eos in minus nemo, nostrum ullam! Aut, commodi consequatur doloribus fuga placeat repellat reprehenderit voluptates.",
         image: "place-3.jpeg",
         user: John

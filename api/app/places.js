@@ -21,9 +21,14 @@ const upload = multer({storage});
 
 router.get('/:id', async (req, res, next) => {
     try {
+
         const place = await Place.findById({_id: req.params.id});
 
-        return res.send(place);
+        if (place) {
+            return res.send(place);
+        }
+
+        return res.status(400).send({error: 'Not found place!'});
 
     } catch (e) {
         return next(e);

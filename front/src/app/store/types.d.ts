@@ -1,5 +1,5 @@
 import { LoginError, RegisterError, User } from '../models/user.model';
-import {AddError, PlaceModel} from "../models/place.model";
+import {AddError, FetchError, PlaceModel} from "../models/place.model";
 
 export type UserState = {
     user: null | User,
@@ -13,7 +13,7 @@ export type PlaceState = {
     place: null | PlaceModel,
     places: null | PlaceModel[],
     fetchLoading: boolean,
-    fetchError: null | string,
+    fetchError: null | FetchError,
     addLoading: boolean,
     addError: null | AddError,
 };

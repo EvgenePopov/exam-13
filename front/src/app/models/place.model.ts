@@ -24,6 +24,10 @@ export interface PlaceApiModel {
     agreement: any | boolean,
 }
 
+export interface FetchError {
+    error: string
+}
+
 export interface AddError {
     error: string
 }

@@ -1,1 +1,16 @@
-<p>information-place works!</p>
+<div class="error" *ngIf="fetchError | async"> {{(fetchError | async)?.error}}</div>
+<mat-progress-spinner *ngIf="fetchLoading | async else placeArea" mode="indeterminate"></mat-progress-spinner>
+
+<ng-template #placeArea>
+    <div *ngIf="placeData" >
+        <div class="main-block">
+            <div class="img-block">
+                <img class="img" [src]="apiUrl + '/uploads/' + placeData.image" [alt]="placeData.title">
+            </div>
+            <div class="info-block">
+                <h2 class="title">{{ placeData.title }}</h2>
+                <p class="description">{{ placeData.description }}</p>
+            </div>
+        </div>
+    </div>
+</ng-template>

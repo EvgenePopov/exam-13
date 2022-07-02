@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from "rxjs";
-import {PlaceModel} from "../../models/place.model";
+import {FetchError, PlaceModel} from "../../models/place.model";
 import {environment} from "../../../environments/environment";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../store/types";
@@ -15,7 +15,7 @@ import {fetchPlacesRequest} from "../../store/place.actions";
 export class HomeComponent implements OnInit {
   places: Observable< null | PlaceModel[]>;
   fetchLoading: Observable<null | boolean>;
-  fetchError: Observable<null | string>;
+  fetchError: Observable<null | FetchError>;
   apiUrl = environment.apiUrl;
 
 
