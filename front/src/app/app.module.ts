@@ -29,6 +29,10 @@ import {FlexModule} from "@angular/flex-layout";
 import {MatCardModule} from "@angular/material/card";
 import { RegisterComponent } from './pages/register/register.component';
 import {ValidatePasswordDirective} from "./validate-password.directive";
+import { InformationPlaceComponent } from './pages/information-place/information-place.component';
+import {placeReducer} from "./store/place.reducer";
+import {PlaceEffects} from "./store/place.effects";
+import { HomeComponent } from './pages/home/home.component';
 
 export const localStorageSyncReducer = (reducer: ActionReducer<any>) => {
     return localStorageSync({
@@ -46,7 +50,9 @@ const metaReducers: Array<MetaReducer> = [localStorageSyncReducer];
       UserTypeDirective,
       LoginComponent,
       RegisterComponent,
-      ValidatePasswordDirective
+      ValidatePasswordDirective,
+      InformationPlaceComponent,
+      HomeComponent
   ],
     imports: [
         BrowserModule,
@@ -62,8 +68,9 @@ const metaReducers: Array<MetaReducer> = [localStorageSyncReducer];
         MatListModule,
         StoreModule.forRoot({
             users: userReducer,
+            places: placeReducer,
         }, {metaReducers}),
-        EffectsModule.forRoot([UsersEffects]),
+        EffectsModule.forRoot([UsersEffects, PlaceEffects]),
         MatMenuModule,
         MatSnackBarModule,
         MatProgressBarModule,
